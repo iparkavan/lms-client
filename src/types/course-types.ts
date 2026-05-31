@@ -1,0 +1,126 @@
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface Instructor {
+  id: string;
+  userId: string;
+  bio?: string | null;
+  expertise?: string | null;
+  rating: number;
+  totalStudents: number;
+  totalCourses: number;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  metaImage?: string | null;
+  user: User;
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  metaImage?: string | null;
+}
+
+export type Section = {
+  id: string;
+  title: string;
+  order: number;
+  courseId: string;
+  lectures: Lecture[];
+
+  _count: {
+    lectures: number;
+  };
+};
+
+export interface CourseCount {
+  reviews: number;
+  enrollments: number;
+  sections: number;
+}
+
+export type Lecture = {
+  id: string;
+  title: string;
+  order: number;
+  sectionId: string;
+  videoUrl?: string | null;
+  duration?: number | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export interface Course {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  thumbnail?: string | null;
+  price: number;
+  originalPrice: number;
+  level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED";
+  categoryId: string;
+  instructorId: string;
+  createdAt: string;
+  updatedAt: string;
+  published: boolean;
+  totalDuration: number;
+  totalLectures: number;
+  status: string;
+  sections: Section[];
+
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string | null;
+  metaImage?: string | null;
+  metaSchema?: any | null;
+
+  category: Category;
+  instructor: Instructor;
+
+  _count: CourseCount;
+}
+
+export interface CoursesResponse {
+  courses: Course[];
+}
+
+export type SaveCoursePayload = {
+  courseData: {
+    course: {
+      title: string;
+      subtitle?: string;
+      description: string;
+      category: string;
+      subcategory?: string;
+      level: string;
+      language: string;
+      price: number;
+    };
+    sections: {
+      id: string;
+      title: string;
+      objective?: string;
+      lectures: Lecture[];
+    }[];
+  };
+};
+
+// ---- Step by step approach ---
+
+export interface CreateCoursePayload {
+  title?: string;
+}
+
+export interface CreateCourseResponse {
+  message: string;
+  course: Course;
+}
