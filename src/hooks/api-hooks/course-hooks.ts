@@ -9,7 +9,7 @@ export const useUpdateCourse = () => {
       data,
     }: {
       courseId: string;
-      data: CourseFormData;
+      data: Partial<CourseFormData>;
     }) => updateCourseMutateFn({ courseId, data }),
     mutationKey: ["update-course"],
   });

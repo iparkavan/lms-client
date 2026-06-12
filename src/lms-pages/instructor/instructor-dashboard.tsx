@@ -351,7 +351,7 @@ const InstructorDashboard: React.FC<InstructorDashboardProps> = ({
                                 <h3 className="font-semibold text-foreground truncate">
                                   {course.title}
                                 </h3>
-                                <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
+                                {/* <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                                   <span className="flex items-center gap-1">
                                     <Users className="h-3.5 w-3.5" />
                                     {course.students} students
@@ -366,7 +366,7 @@ const InstructorDashboard: React.FC<InstructorDashboardProps> = ({
                                       {course.rating}
                                     </span>
                                   )}
-                                </div>
+                                </div> */}
                               </div>
                               <div className="flex items-center gap-2">
                                 <Badge
@@ -414,7 +414,7 @@ const InstructorDashboard: React.FC<InstructorDashboardProps> = ({
                                 </DropdownMenu>
                               </div>
                             </div>
-                            {course.status === "draft" && (
+                            {/* {course.status === "draft" && (
                               <div className="mt-3">
                                 <div className="flex items-center justify-between text-xs mb-1">
                                   <span className="text-muted-foreground">
@@ -429,7 +429,7 @@ const InstructorDashboard: React.FC<InstructorDashboardProps> = ({
                                   className="h-1.5"
                                 />
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </motion.div>
                       )}

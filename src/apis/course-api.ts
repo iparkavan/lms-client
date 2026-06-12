@@ -34,7 +34,7 @@ export const updateCourseMutateFn = async ({
   data,
 }: {
   courseId: string;
-  data: CourseFormData;
+  data: Partial<CourseFormData>;
 }) => {
   const res = await axiosClient.put(
     `/instructor/courses/update-course/${courseId}`,

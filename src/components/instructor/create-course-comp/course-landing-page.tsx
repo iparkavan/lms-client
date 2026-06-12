@@ -54,7 +54,7 @@ interface CourseLandingPageSectionProps {
   } | null;
   onRemovePromoVideo: () => void;
   videoUploadProgress: number;
-  imageInputRef: null;
+  imageInputRef: any;
 }
 
 const CourseLandingPageSection: React.FC<CourseLandingPageSectionProps> = ({

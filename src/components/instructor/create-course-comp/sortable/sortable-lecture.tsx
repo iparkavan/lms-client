@@ -15,6 +15,7 @@ import { ReactNode } from "react";
 import { LectureType } from "@/lms-pages/instructor/course-creation/edit-course";
 
 interface Lecture {
+  order: number;
   id: string;
   title: string;
   type: LectureType;

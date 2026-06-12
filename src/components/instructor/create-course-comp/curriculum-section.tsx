@@ -71,7 +71,7 @@ interface CurriculumSectionProps {
   isDeleteSectionPending: boolean;
   isDeleteSectionVariables: string | undefined;
   isCreateLecturePending: boolean;
-  isDeleteLectureVariables: string | undefined;
+  isDeleteLectureVariables: any;
   isDeleteLecturePending: boolean;
 }
 
