@@ -22,7 +22,7 @@ export async function proxy(req: NextRequest) {
 
   // if (pathname === "/" && token) {
   //   try {
-  //     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+  //     const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET!);
 
   //     const { payload } = await jwtVerify(token, secret);
 
@@ -42,7 +42,9 @@ export async function proxy(req: NextRequest) {
 
   if (pathname === "/" && token) {
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET!,
+      );
 
       const { payload } = await jwtVerify(token, secret, {
         algorithms: ["HS256"],
@@ -70,8 +72,8 @@ export async function proxy(req: NextRequest) {
         error: "JWT verification failed",
         message: err instanceof Error ? err.message : "Unknown error",
         // Debug Amplify env variables
-        jwtSecretExists: !!process.env.JWT_SECRET,
-        jwtSecretLength: process.env.JWT_SECRET?.length ?? 0,
+        jwtSecretExists: !!process.env.NEXT_PUBLIC_JWT_SECRET,
+        jwtSecretLength: process.env.NEXT_PUBLIC_JWT_SECRET?.length ?? 0,
       });
     }
   }
@@ -84,7 +86,9 @@ export async function proxy(req: NextRequest) {
 
   if (token && isAuth(pathname)) {
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET!,
+      );
 
       const { payload } = await jwtVerify(token, secret);
 
@@ -114,7 +118,9 @@ export async function proxy(req: NextRequest) {
     }
 
     try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+      const secret = new TextEncoder().encode(
+        process.env.NEXT_PUBLIC_JWT_SECRET!,
+      );
       const { payload } = await jwtVerify(token, secret);
       const role = payload.role as string;
       console.log("User role from token:", role);
@@ -193,7 +199,7 @@ export const config = {
 //     }
 
 //     try {
-//       const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+//       const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET!);
 //       console.log("Verifying token:", token);
 //       await jwtVerify(token, secret);
 
@@ -306,7 +312,7 @@ export const config = {
 //     }
 
 //     try {
-//       const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+//       const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET!);
 
 //       const { payload } = await jwtVerify(token, secret);
 
