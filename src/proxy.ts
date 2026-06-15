@@ -69,6 +69,9 @@ export async function proxy(req: NextRequest) {
       return NextResponse.json({
         error: "JWT verification failed",
         message: err instanceof Error ? err.message : "Unknown error",
+        // Debug Amplify env variables
+        jwtSecretExists: !!process.env.JWT_SECRET,
+        jwtSecretLength: process.env.JWT_SECRET?.length ?? 0,
       });
     }
   }
