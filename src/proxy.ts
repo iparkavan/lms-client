@@ -20,11 +20,33 @@ export async function proxy(req: NextRequest) {
   const token = req.cookies.get(ACCESS_TOKEN)?.value;
   const { pathname } = req.nextUrl;
 
+  // if (pathname === "/" && token) {
+  //   try {
+  //     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+  //     const { payload } = await jwtVerify(token, secret);
+
+  //     const role = payload.role as string;
+
+  //     if (role === UserRole.ADMIN) {
+  //       return NextResponse.redirect(new URL("/admin", req.url));
+  //     }
+
+  //     if (role === UserRole.INSTRUCTOR) {
+  //       return NextResponse.redirect(new URL("/instructor", req.url));
+  //     }
+  //   } catch {
+  //     // Invalid token -> continue normally
+  //   }
+  // }
+
   if (pathname === "/" && token) {
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
       const { payload } = await jwtVerify(token, secret);
+
+      console.log("ROLE:", payload.role);
 
       const role = payload.role as string;
 
@@ -35,8 +57,12 @@ export async function proxy(req: NextRequest) {
       if (role === UserRole.INSTRUCTOR) {
         return NextResponse.redirect(new URL("/instructor", req.url));
       }
-    } catch {
-      // Invalid token -> continue normally
+    } catch (err) {
+      console.error("JWT VERIFY ERROR:", err);
+
+      return NextResponse.json({
+        error: "JWT verification failed",
+      });
     }
   }
 
@@ -98,6 +124,13 @@ export async function proxy(req: NextRequest) {
       return res;
     }
   }
+
+  console.log(
+    req.cookies.getAll().map((c) => ({
+      name: c.name,
+      value: c.value.substring(0, 20),
+    })),
+  );
 
   return NextResponse.next();
 }
