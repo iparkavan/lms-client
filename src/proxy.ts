@@ -44,7 +44,9 @@ export async function proxy(req: NextRequest) {
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
-      const { payload } = await jwtVerify(token, secret);
+      const { payload } = await jwtVerify(token, secret, {
+        algorithms: ["HS256"],
+      });
 
       console.log("ROLE:", payload.role);
 
@@ -57,11 +59,16 @@ export async function proxy(req: NextRequest) {
       if (role === UserRole.INSTRUCTOR) {
         return NextResponse.redirect(new URL("/instructor", req.url));
       }
+
+      if (role === UserRole.STUDENT) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
     } catch (err) {
       console.error("JWT VERIFY ERROR:", err);
 
       return NextResponse.json({
         error: "JWT verification failed",
+        message: err instanceof Error ? err.message : "Unknown error",
       });
     }
   }
