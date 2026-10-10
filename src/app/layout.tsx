@@ -67,8 +67,6 @@ export default async function RootLayout({
     }
   }
 
-  console.log("Initial user in layout", user);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body

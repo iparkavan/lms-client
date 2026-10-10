@@ -12,7 +12,7 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useUserInfoStore } from "@/store/userInfo-store";
 import { UserAvatarDropdownMenu } from "@/app/(root)/_components/user-avatar-dropdown-menu";
-import { ACCESS_TOKEN } from "@/utils/contants";
+import { ACCESS_TOKEN, UserRole } from "@/utils/contants";
 import Cookies from "js-cookie";
 
 const Navbar = () => {
@@ -98,6 +98,15 @@ const Navbar = () => {
                 </a>
               </>
             )}
+
+            <div>
+              <Link
+                href={`${SIGNUP_ROUTE}&mode=${UserRole.INSTRUCTOR}`}
+                className="hover:underline"
+              >
+                Teach on Learnify
+              </Link>
+            </div>
             <div className="flex items-center gap-2">
               <div className="">
                 <ThemeModeToggle />
@@ -111,7 +120,11 @@ const Navbar = () => {
                   >
                     Log In
                   </Button>
-                  <Button onClick={() => router.push(SIGNUP_ROUTE)}>
+                  <Button
+                    onClick={() => {
+                      router.push(`${SIGNUP_ROUTE}&mode=${UserRole.STUDENT}`);
+                    }}
+                  >
                     Sign Up
                   </Button>
                 </>
@@ -196,7 +209,9 @@ const Navbar = () => {
                   </Button>
                   <Button
                     onClick={() => {
-                      router.push(SIGNUP_ROUTE);
+                      router.push(
+                        `${SIGNUP_ROUTE}&mode=${UserRole.INSTRUCTOR}`,
+                      );
                     }}
                   >
                     Sign Up

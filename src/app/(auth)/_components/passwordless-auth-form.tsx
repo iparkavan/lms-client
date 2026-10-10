@@ -32,6 +32,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userAuthSchema, UserAuthSchemaType } from "@/schema/auth-schema";
 import { useLoginSendOtp, useSignupSendOtp } from "@/hooks/auth-hook";
 import { Loader } from "lucide-react";
+import { UserRole } from "@/utils/contants";
 
 export function PasswordLessAuthForm({
   className,
@@ -42,6 +43,7 @@ export function PasswordLessAuthForm({
   const router = useRouter();
 
   const action = searchParams.get("action");
+  const mode = searchParams.get("mode");
 
   const isSignup = action === "signup";
 
@@ -90,7 +92,7 @@ export function PasswordLessAuthForm({
               setError(error?.response?.data?.message);
             }
           },
-        }
+        },
       );
       return;
     }
@@ -107,11 +109,11 @@ export function PasswordLessAuthForm({
           console.log(error);
           if (error?.response?.status === 404) {
             setError(
-              "There was a problem logging in. Check your email or create an account."
+              "There was a problem logging in. Check your email or create an account.",
             );
           }
         },
-      }
+      },
     );
   };
 
@@ -121,7 +123,11 @@ export function PasswordLessAuthForm({
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-xl">
-              {isSignup ? "Create your account" : "Login to your account"}
+              {mode === UserRole.INSTRUCTOR
+                ? "Become a Learnigy Instructor"
+                : isSignup
+                  ? "Create your account"
+                  : "Login to your account"}
             </CardTitle>
             <CardDescription>
               {`Enter your email below to ${
@@ -197,7 +203,11 @@ export function PasswordLessAuthForm({
                       ? "Already have an account?"
                       : "Create a new account"}{" "}
                     <Link
-                      href={isSignup ? LOGIN_ROUTE : SIGNUP_ROUTE}
+                      href={
+                        isSignup
+                          ? LOGIN_ROUTE
+                          : `${SIGNUP_ROUTE}&mode=${UserRole.STUDENT}`
+                      }
                       className="text-primary"
                     >
                       {isSignup ? "Login" : "Signup"}
@@ -225,13 +235,13 @@ export function PasswordLessAuthForm({
                   </svg>
                   <span className="sr-only">Login with Apple</span>
                 </Button> */}
-                <Button
+                {/* <Button
                   variant="outline"
                   className="hover:text-white"
                   type="button"
                   onClick={() =>
                     router.push(
-                      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`
+                      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
                     )
                   }
                 >
@@ -241,6 +251,23 @@ export function PasswordLessAuthForm({
                       fill="currentColor"
                     />
                   </svg>
+                  Login with Google
+                </Button> */}
+
+                <Button
+                  variant="outline"
+                  className="hover:text-white"
+                  type="button"
+                  onClick={() => {
+                    const intent =
+                      mode === UserRole.INSTRUCTOR
+                        ? UserRole.INSTRUCTOR
+                        : UserRole.STUDENT;
+
+                    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google?mode=${intent}`;
+                  }}
+                >
+                  {/* Your existing Google SVG */}
                   Login with Google
                 </Button>
                 {/* <Button
@@ -279,7 +306,11 @@ export function PasswordLessAuthForm({
           </CardContent>
         </Card>
       ) : (
-        <OtpVerificationAuthForm email={email} name={name} onResendOTP={onSubmit} />
+        <OtpVerificationAuthForm
+          email={email}
+          name={name}
+          onResendOTP={onSubmit}
+        />
       )}
       <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
